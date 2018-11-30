@@ -11,9 +11,10 @@ import {  MatSortModule, MatNativeDateModule, MatDatepickerModule } from '@angul
 import { UserTableComponent } from './user-table/user-table.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { userReducer } from './store/user.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import { reducers, metaReducers } from './reducers';
+import { environment } from '../environments/environment';
 
 @NgModule({
    declarations: [
@@ -35,10 +36,11 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component';
       ReactiveFormsModule,
       MatNativeDateModule,
       MatDatepickerModule,
-      StoreModule.forRoot({users: userReducer}),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states
       }),
+      StoreModule.forRoot(reducers, { metaReducers }),
+      !environment.production ? StoreDevtoolsModule.instrument() : [],
    ],
    entryComponents: [UserDialogComponent],
    providers: [],
