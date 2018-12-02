@@ -3,15 +3,21 @@ import {User} from '../user';
 import {Update} from '@ngrx/entity';
 
 export enum UserActionTypes {
-  CreateUser = '[Create User] Action',
+  CreatedUser = '[Created User] Action',
+  CreateUser  = '[Create User In Mock] Action',
   UpdateUser = '[Update User] Action',
   DeleteUser = '[Delete User] Action',
   AllUserRequested = '[User Home] Request All Users',
   AllUserLoaded    = '[User Dump API] All User Loaded',
 }
 
-export class CreateUsers implements Action {
+export class CreateUser implements Action {
   readonly type = UserActionTypes.CreateUser;
+  constructor (public payload: { user: User }) {}
+}
+
+export class CreatedUser implements Action {
+  readonly type = UserActionTypes.CreatedUser;
   constructor (public payload: { user: User }) {}
 }
 
@@ -35,7 +41,8 @@ export class AllUsersLoaded  implements Action {
 }
 
 
-export type UserActions =   CreateUsers
+export type UserActions =   CreateUser
+                          | CreatedUser
                           | UpdateUsers
                           | DeleteUsers
                           | AllUserRequested
