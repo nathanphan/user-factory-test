@@ -23,6 +23,12 @@ function uReducer(state: UsersState = initializeState, action: UserActions): Use
   switch (action.type) {
       case UserActionTypes.AllUserLoaded:
           return adapter.addAll(action.payload.users, {...state, allUsersLoaded: true});
+      case UserActionTypes.CreateUser:
+          return adapter.upsertOne(action.payload.user, state);
+      case UserActionTypes.UpdateUser:
+          return adapter.updateOne(action.payload.user, state);
+      case UserActionTypes.DeleteUser:
+          return adapter.removeOne(action.payload.key, state);
       default:
         return state;
   }

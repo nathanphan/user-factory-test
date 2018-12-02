@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import {User} from '../user';
+import {Update} from '@ngrx/entity';
 
 export enum UserActionTypes {
   CreateUser = '[Create User] Action',
@@ -11,17 +12,17 @@ export enum UserActionTypes {
 
 export class CreateUsers implements Action {
   readonly type = UserActionTypes.CreateUser;
-  constructor (public payload: User) {}
+  constructor (public payload: { user: User }) {}
 }
 
 export class UpdateUsers implements Action {
   readonly type = UserActionTypes.UpdateUser;
-  constructor (public payload: User) {}
+  constructor (public payload: {user: Update<User>}) {}
 }
 
 export class DeleteUsers implements Action {
   readonly type = UserActionTypes.DeleteUser;
-  constructor (public payload: User) {}
+  constructor (public payload: {key: Number}) {}
 }
 
 export class AllUserRequested implements Action {

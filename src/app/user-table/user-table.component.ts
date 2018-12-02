@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 import { AppState } from '../reducers';
 import {selectAllUsers} from './users.selector';
-import {AllUserRequested} from '../user/user.actions';
+import {AllUserRequested, DeleteUsers} from '../user/user.actions';
+import {UserService} from '../user-service.service';
 
 @Component({
   selector: 'app-user-table',
@@ -24,7 +25,9 @@ export class UserTableComponent implements OnInit {
 
   users: Observable<User[]>;
 
-  public constructor(private store: Store<AppState>, private dialog: MatDialog) { }
+  public constructor(private store: Store<AppState>,
+                     private dialog: MatDialog,
+                     private userService: UserService) { }
 
   ngOnInit() {
       // first store will be empty, so need to dispatch an Action to load data.
@@ -43,7 +46,7 @@ export class UserTableComponent implements OnInit {
         });
   }
 
-/*  public edit(user: User) {
+  public edit(user: User) {
     this.dialog.open(UserDialogComponent, {
       data: user
     });
@@ -51,8 +54,12 @@ export class UserTableComponent implements OnInit {
 
   public delete(user: User) {
     if (confirm('Are you sure')) {
-      this.store.dispatch(new DeleteUser(user));
+        this.userService.delete(user).subscribe(
+            (id) => {
+                this.store.dispatch(new DeleteUsers({key: id}));
+            }
+        );
     }
-  }*/
+  }
 
 }
