@@ -5,9 +5,9 @@ import { select, Store} from '@ngrx/store';
 import { User } from '../user';
 import { Observable } from 'rxjs';
 import { UserDialogComponent } from '../user-dialog/user-dialog.component';
-import { DeleteUser } from '../store/user.actions';
 import { AppState } from '../reducers';
-import { userList } from './users.selector';
+import {selectAllUsers} from './users.selector';
+import {AllUserRequested} from '../user/user.actions';
 
 @Component({
   selector: 'app-user-table',
@@ -24,16 +24,16 @@ export class UserTableComponent implements OnInit {
 
   users: Observable<User[]>;
 
-  public constructor(private store: Store<AppState>, private dialog: MatDialog) {
-      this.users = this.store
-          .pipe(
-              // map(state => state.users.data),
-              // actually don't need, but for  experiment only. only use Selector when calculating the derived State is needed.
-              select(userList)
-          );
-  }
+  public constructor(private store: Store<AppState>, private dialog: MatDialog) { }
 
   ngOnInit() {
+      // first store will be empty, so need to dispatch an Action to load data.
+      this.store.dispatch(new AllUserRequested());
+      // using selector to query data from Store.
+      this.users = this.store
+          .pipe(
+                select(selectAllUsers),
+          );
     this.dataSource = new UserTableDataSource(this.paginator, this.sort);
 
     this.users
@@ -43,7 +43,7 @@ export class UserTableComponent implements OnInit {
         });
   }
 
-  public edit(user: User) {
+/*  public edit(user: User) {
     this.dialog.open(UserDialogComponent, {
       data: user
     });
@@ -53,6 +53,6 @@ export class UserTableComponent implements OnInit {
     if (confirm('Are you sure')) {
       this.store.dispatch(new DeleteUser(user));
     }
-  }
+  }*/
 
 }

@@ -1,8 +1,15 @@
-import {createSelector} from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {UsersState} from '../reducers';
+import * as fromUsers from '../reducers/index';
 
-export const selectUsersState = state => state.users;
+export const selectUsersState = createFeatureSelector<UsersState>('users');
 
-export const userList = createSelector(
+export const selectAllUsers = createSelector(
     selectUsersState,
-    users => users.data
+    fromUsers.selectAll,
+)
+
+export const selectAllUsersLoaded = createSelector(
+    selectUsersState,
+    users => users.allUsersLoaded
 )
