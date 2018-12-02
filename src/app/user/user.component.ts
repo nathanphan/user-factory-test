@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
 
   matcher = new MyErrorMatcher();
 
-  constructor(private userService: UserService, private store: Store<AppState>) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {}
 
