@@ -23,7 +23,6 @@ export class DeleteUsers implements Action {
 }
 
 
-
 export type UserActions =   CreateUsers
                           | UpdateUsers
                           | DeleteUsers;

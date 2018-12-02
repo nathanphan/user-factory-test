@@ -26,7 +26,12 @@ export interface AppState {
 function uReducer(state: UsersState = initializeState, action: UserActions): UsersState {
   switch (action.type) {
       case UserActionTypes.CreateUser:
-        return [..state.data, action.payload];
+          const newData = state.data.slice();
+          newData.push(action.payload);
+          const newUsersState = {
+              data: newData
+          };
+        return newUsersState;
       default:
         return state;
   }
