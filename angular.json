@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "factory-test"
+  "defaultProject": "factory-test",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
