@@ -22,7 +22,7 @@ export class UpdateUsers implements Action {
 
 export class DeleteUsers implements Action {
   readonly type = UserActionTypes.DeleteUser;
-  constructor (public payload: {key: Number}) {}
+  constructor (public payload: {key: number}) {}
 }
 
 export class AllUserRequested implements Action {

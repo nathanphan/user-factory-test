@@ -54,7 +54,8 @@ export class UserTableComponent implements OnInit {
 
   public delete(user: User) {
     if (confirm('Are you sure')) {
-        this.userService.delete(user).subscribe(
+        this.userService.delete(user)
+            .subscribe(
             (id) => {
                 this.store.dispatch(new DeleteUsers({key: id}));
             }
