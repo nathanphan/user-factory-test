@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material';
 import { UserService } from '../user-service.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../reducers';
-import {CreateUsers} from './user.actions';
+import {CreateUser} from './user.actions';
 import {Update} from '@ngrx/entity';
 import {User} from '../user';
 
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
 
   matcher = new MyErrorMatcher();
 
-  constructor(private userService: UserService, private store: Store<AppState>) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {}
 
@@ -45,19 +45,8 @@ export class UserComponent implements OnInit {
       return;
     }
     this.userForm.patchValue({id: this.userService.getCurrentTimeStamp(), dateJoined: '2018-11-20'});
-    this.userService.add(this.userForm.value).
-    subscribe(
-        (users) => {
-            const newUser: User = {
-               id: this.userService.getCurrentTimeStamp(),
-                name: this.userForm.get('name').value,
-                email: this.userForm.get('email').value,
-                dateJoined: new Date().toLocaleDateString()
-            };
-            this.store.dispatch(new CreateUsers({user: newUser}));
-            this.userForm.reset();
-        }
-    );
+    this.userService.add(this.userForm.value);
+    this.userForm.reset();
   }
 
   // convenience getter for easy access to form fields

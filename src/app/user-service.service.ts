@@ -3,7 +3,7 @@ import { User } from './user';
 import { Store } from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {USERS} from './mock-user';
-import {forEach} from '@angular/router/src/utils/collection';
+import {CreateUser} from './user/user.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,15 @@ export class UserService {
     this.users = this.store.select('users');
   }
 
-  public add(user: User): Observable<User[]> {
-      USERS.push(user);
-      return of(USERS);
+  public add(user: User): User {
+      const newUser: User = {
+          id: this.getCurrentTimeStamp(),
+          name: user.name,
+          email: user.email,
+          dateJoined: new Date().toLocaleDateString()
+      };
+      this.store.dispatch(new CreateUser({user: newUser}));
+      return user;
   }
 
   public update(user: User): Observable<User[]> {
@@ -49,6 +55,12 @@ export class UserService {
   public getCurrentTimeStamp() {
       const a = Math.floor(Date.now() / 1000);
       return a;
+  }
+
+  public createUser(user: User): Observable<User> {
+      USERS.push(user);
+
+      return of(user);
   }
 
 }
